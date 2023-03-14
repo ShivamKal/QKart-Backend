@@ -5,11 +5,15 @@ const httpStatus = require("http-status");
 const routes = require("./routes/v1");
 const { errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
-const mongoose = require("mongoose");
-require('dotenv').config()
+const { jwtStrategy } = require("./config/passport");
+const helmet = require("helmet");
+const passport = require("passport");
+
 const app = express();
 
-const PORT = process.env.PORT
+// set security HTTP headers - https://helmetjs.github.io/
+app.use(helmet());
+
 // parse json request body
 app.use(express.json());
 
@@ -35,4 +39,7 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 // mongoose.connect(process.env.MONGODB_URL).then(() => {console.log("Connected to MongoDB")});
 app.listen(PORT, () => {console.log(`App is running on port ${PORT}`);});
+
+// handle error
+app.use(errorHandler);
 module.exports = app;
