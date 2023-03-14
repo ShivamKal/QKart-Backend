@@ -4,6 +4,7 @@ const objectId = (value, helpers) => {
   }
   return value;
 };
+
 const password = (value, helpers) => {
   if (value.length < 8) {
     return helpers.message("password must be at least 8 characters");
@@ -15,6 +16,7 @@ const password = (value, helpers) => {
   }
   return value;
 };
+
 module.exports = {
   objectId,
   password,

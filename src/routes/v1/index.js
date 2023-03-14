@@ -1,5 +1,3 @@
-// CRIO_SOLUTION_START_MODULE_UNDERSTANDING_BASICS
-// CRIO_SOLUTION_END_MODULE_UNDERSTANDING_BASICS
 const express = require("express");
 const userRoute = require("./user.route");
 const authRoute = require("./auth.route");

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-// const { toJSON, paginate } = require('./plugins');
 
 const productSchema = mongoose.Schema(
   {
@@ -34,10 +33,6 @@ const productSchema = mongoose.Schema(
     timestamps: false,
   }
 );
-// TODO (Rohin) - Evaluate if we can teach why we need the toJSON Plugin.
-// add plugin that converts mongoose to json
-// userSchema.plugin(toJSON);
-// userSchema.plugin(paginate);
 
 /**
  * @typedef Product
