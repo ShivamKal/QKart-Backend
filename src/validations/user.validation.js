@@ -8,12 +8,7 @@ const { objectId } = require("./custom.validation");
  * - string
  * - valid Mongo id -> Use the helper function in src/validations/custom.validation.js
  */
-const getUser = {
-  params: Joi.object().keys({
-  }),
-};
-
-
+const getUser = {params: Joi.object().keys({userId: Joi.string().custom(objectId)})};
 module.exports = {
   getUser,
 };

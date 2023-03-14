@@ -5,10 +5,11 @@ const httpStatus = require("http-status");
 const routes = require("./routes/v1");
 const { errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
-
+const mongoose = require("mongoose");
+require('dotenv').config()
 const app = express();
 
-
+const PORT = process.env.PORT
 // parse json request body
 app.use(express.json());
 
@@ -30,8 +31,8 @@ app.use("/v1", routes);
 app.use((req, res, next) => {
     next(new ApiError(httpStatus.NOT_FOUND, "Not found"));
 });
-
 // handle error
 app.use(errorHandler);
-
+// mongoose.connect(process.env.MONGODB_URL).then(() => {console.log("Connected to MongoDB")});
+app.listen(PORT, () => {console.log(`App is running on port ${PORT}`);});
 module.exports = app;
