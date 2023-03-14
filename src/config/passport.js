@@ -2,6 +2,8 @@ const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
 const config = require("./config");
 const { tokenTypes } = require("./tokens");
 const { User } = require("../models");
+const ApiError = require("../utils/ApiError");
+const httpStatus = require("http-status");
 
 // TODO: CRIO_TASK_MODULE_AUTH - Set mechanism to retrieve Jwt token from user request
 /**
@@ -11,7 +13,7 @@ const { User } = require("../models");
  */
 const jwtOptions = {
   secretOrKey: config.jwt.secret,
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest:ExtractJwt.fromAuthHeaderAsBearerToken()
 };
 
 // TODO: CRIO_TASK_MODULE_AUTH - Implement verify callback for passport strategy to find the user whose token is passed
@@ -27,19 +29,29 @@ const jwtOptions = {
  * @param done - callback function
  */
 const jwtVerify = async (payload, done) => {
-  try {
-    if (payload.type !== tokenTypes.ACCESS) throw new Error("Invalid token type");
-    const user = await User.findById(payload.sub);
-    if (!user) return done(null, false);
-    done(null, user);
-  } catch (error) {
-    done(error, false);
+
+  const id=payload.sub
+  const type=payload.type
+
+  if(type!==tokenTypes.ACCESS){
+    return done(new ApiError(httpStatus.UNAUTHORIZED,"Invalid token type"),false)
   }
-};
+  
+  User.findOne({"_id":id})
+  .then((user)=>{
+    if(user){
+      done(null,user)
+    }else{
+      done(null,false)
+    }
+  }).catch((err)=>{
+    return done(err,false)
+  })
+}
 
 // TODO: CRIO_TASK_MODULE_AUTH - Uncomment below lines of code once the "jwtVerify" and "jwtOptions" are implemented
 const jwtStrategy = new JwtStrategy(jwtOptions, jwtVerify);
 
 module.exports = {
-  jwtStrategy,
+  jwtStrategy,jwtOptions
 };
