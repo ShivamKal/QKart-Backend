@@ -48,9 +48,6 @@ const { userService } = require("../services");
  * HTTP 403 - If request data doesn't match that of authenticated user
  * HTTP 404 - If user entity not found in DB
  * 
-// Commented out to avoid confusion as a function parameter
- * @param {string} req.params.userId
- * @param {User} req.user
  * @returns {User | {address: String}}
  *
  */

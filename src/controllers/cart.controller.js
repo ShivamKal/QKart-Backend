@@ -29,7 +29,6 @@ const { cartService } = require("../services");
  *  "__v": 33
  * }
  * 
- * @param {User} req.user
  *
  */
 const getCart = catchAsync(async (req, res) => {
@@ -40,11 +39,6 @@ const getCart = catchAsync(async (req, res) => {
 /**
  * Add a product to cart
  *
-// CRIO_SOLUTION_START_MODULE_CART
- * @param {string} req.body.productId
- * @param {string} req.body.quantity
- * @param {User} req.user
-// CRIO_SOLUTION_END_MODULE_CART
  *
  */
 const addProductToCart = catchAsync(async (req, res) => {
