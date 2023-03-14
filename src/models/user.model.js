@@ -49,27 +49,14 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-
-/**
- * Check if email is taken
- * @param {string} email - The user's email
- * @returns {Promise<boolean>}
- */
 userSchema.statics.isEmailTaken = async function (email) {
   const user = await this.findOne({ email });
   return !!user;
 };
-
-/**
- * Check if entered password matches the user's password
- * @param {string} password
- * @returns {Promise<boolean>}
- */
 userSchema.methods.isPasswordMatch = async function (password) {
   const user = this;
   return bcrypt.compare(password, user.password);
 };
-
 userSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
@@ -78,12 +65,10 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-
 userSchema.methods.hasSetNonDefaultAddress = async function () {
   const user = this;
   return user.address !== config.default_address;
 };
-
 
 const User = mongoose.model("User", userSchema);
 
